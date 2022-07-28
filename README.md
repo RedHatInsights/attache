@@ -13,6 +13,7 @@ Envoy has been designed for use with docker-compose (or podman-compose) to link 
 | NAMESPACE | Namespace in which the target pod is running        | default          |
 | LABELS    | Comma-separated labels that identify the target pod | name=foo,svc=bar |
 | PORTS     | Space-separated list of TCP ports to be forwarded   | 1234:1234 5678   |
+| INSECURE  | TLS certificate is not verified when set            | 1                |
 
 Example configuration in a compose file linking a database service running in Kubernetes with a locally running application:
 ```yaml
