@@ -31,7 +31,7 @@ if [[ ! -f "/root/.kube/config" ]]; then
 fi
 
 kube_client() {
-  kubectl --insecure-skip-tls-verify --cluster "${CLUSTER}" --user "${USER}" --namespace "${NAMESPACE}" "${@}";
+  kubectl "${INSECURE:+'--insecure-skip-tls-verify'}" --cluster "${CLUSTER}" --user "${USER}" --namespace "${NAMESPACE}" "${@}";
 }
 
 POD_NAME=$(kube_client get pod -l "${LABELS}" -o name)
