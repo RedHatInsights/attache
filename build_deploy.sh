@@ -10,7 +10,7 @@ login_container_registry() {
     podman login "-u=${USER}" "--password-stdin" "$REGISTRY" <<< "$PASSWORD"
 }
 
-IMAGE_NAME="quay.io/cloudservices/envoy"
+IMAGE_NAME="quay.io/cloudservices/attache"
 IMAGE_TAG=$(git rev-parse --short=7 HEAD)
 
 login_container_registry "$QUAY_USER" "$QUAY_TOKEN" "quay.io"

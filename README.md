@@ -1,10 +1,10 @@
-# Envoy
+# Attaché
 
 Simple container providing a kubectl port-forwarding proxy for linking a compose-based local development environment with services running in Kubernetes.
 
 ## Usage
 
-Envoy has been designed for use with docker-compose (or podman-compose) to link a set of locally running services with a pod running in Kubernetes. Each remote service should have its own envoy counterpart that is responsible for port-forwarding into the composed environment. First of all, on your local machine, you should be authorized against the target Kubernetes cluster, i.e. `kubectl` should work locally and you should have a `kubeconfig file`. The compose entry requires the following environment variables to be set:
+Attaché has been designed for use with docker-compose (or podman-compose) to link a set of locally running services with a pod running in Kubernetes. Each remote service should have its own attaché counterpart that is responsible for port-forwarding into the composed environment. First of all, on your local machine, you should be authorized against the target Kubernetes cluster, i.e. `kubectl` should work locally and you should have a `kubeconfig file`. The compose entry requires the following environment variables to be set:
 
 | Variable  | Description                                         | Example value    |
 |-----------|-----------------------------------------------------|------------------|
@@ -20,7 +20,7 @@ Example configuration in a compose file linking a database service running in Ku
 version: "3"
 services:
   db:
-    image: quay.io/cloudservices/envoy
+    image: quay.io/cloudservices/attache
     restart: always
     environment:
       - CLUSTER=foo.bar.baz
