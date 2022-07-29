@@ -34,7 +34,7 @@ kube_client() {
   kubectl "${INSECURE:+'--insecure-skip-tls-verify'}" --cluster "${CLUSTER}" --user "${USER}" --namespace "${NAMESPACE}" "${@}";
 }
 
-POD_NAME=$(kube_client get pod -l "${LABELS}" -o name)
+POD_NAME=$(kube_client get pod -l "${LABELS}" -o name | shuf -n1)
 while true; do
   kube_client port-forward "${POD_NAME}" "${PORTS}" --address="0.0.0.0";
 done
