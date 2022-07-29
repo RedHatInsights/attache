@@ -2,7 +2,6 @@
 set -ex
 
 login_container_registry() {
-
     local USER="$1"
     local PASSWORD="$2"
     local REGISTRY="$3"
