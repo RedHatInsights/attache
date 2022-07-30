@@ -1,20 +1,5 @@
 #!/bin/bash
 
-if [[ -z "$CLUSTER" ]]; then
-  echo "Container failed to start, CLUSTER not set"
-  exit 1
-fi
-
-if [[ -z "$USER" ]]; then
-  echo "Container failed to start, USER not set"
-  exit 1
-fi
-
-if [[ -z "$NAMESPACE" ]]; then
-  echo "Container failed to start, NAMESPACE not set"
-  exit 1
-fi
-
 if [[ -z "$LABELS" ]]; then
   echo "Container failed to start, LABELS not set"
   exit 1
@@ -31,7 +16,25 @@ if [[ ! -f "/root/.kube/config" ]]; then
 fi
 
 kube_client() {
-  kubectl "${INSECURE:+'--insecure-skip-tls-verify'}" --cluster "${CLUSTER}" --user "${USER}" --namespace "${NAMESPACE}" "${@}";
+  params=()
+
+  if [[ "$CLUSTER" ]]; then
+    params+=("--cluster=${CLUSTER}")
+  fi
+
+  if [[ "$USER" ]]; then
+    params+=("--user=${USER}")
+  fi
+
+  if [[ "$NAMESPACE" ]]; then
+    params+=("--namespace=${NAMESPACE}")
+  fi
+
+  if [[ "$INSECURE" ]]; then
+    params+=("--insecure-skip-tls-verify")
+  fi
+
+  kubectl "${@}" "${params[@]}";
 }
 
 POD_NAME=$(kube_client get pod -l "${LABELS}" -o name | shuf -n1)
