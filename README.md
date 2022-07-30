@@ -4,16 +4,18 @@ Simple container providing a kubectl port-forwarding proxy for linking a compose
 
 ## Usage
 
-Attaché has been designed for use with docker-compose (or podman-compose) to link a set of locally running services with a pod running in Kubernetes. Each remote service should have its own attaché counterpart that is responsible for port-forwarding into the composed environment. First of all, on your local machine, you should be authorized against the target Kubernetes cluster, i.e. `kubectl` should work locally and you should have a `kubeconfig file`. The compose entry requires the following environment variables to be set:
+Attaché has been designed for use with docker-compose (or podman-compose) to link a set of locally running services with a pod running in Kubernetes. Each remote service should have its own attaché counterpart that is responsible for port-forwarding into the composed environment. First of all, on your local machine, you should be authorized against the target Kubernetes cluster, i.e. `kubectl` should work locally and you should have a [kubeconfig](https://github.com/kubernetes/kubernetes/blob/release-1.1/docs/user-guide/kubeconfig-file.md) file. This file has to be attached as a volume to the container as `/root/.kube/config`. The compose entry requires the following environment variables to be set:
 
-| Variable  | Description                                         | Example value    |
-|-----------|-----------------------------------------------------|------------------|
-| CLUSTER   | Name of the cluster configured in KUBECONFIG        | foo.bar.baz      |
-| USER      | Name of the logged in user                          | user/foo.bar.baz |
-| NAMESPACE | Namespace in which the target pod is running        | default          |
-| LABELS    | Comma-separated labels that identify the target pod | name=foo,svc=bar |
-| PORTS     | Space-separated list of TCP ports to be forwarded   | 1234:1234 5678   |
-| INSECURE  | TLS certificate is not verified when set            | 1                |
+| Variable   | Description                                         | Example value    |
+|------------|-----------------------------------------------------|------------------|
+| CLUSTER¹   | Name of the cluster configured in KUBECONFIG        | foo.bar.baz      |
+| USER¹      | Name of the logged in user                          | user/foo.bar.baz |
+| NAMESPACE¹ | Namespace in which the target pod is running        | default          |
+| LABELS     | Comma-separated labels that identify the target pod | name=foo,svc=bar |
+| PORTS      | Space-separated list of TCP ports to be forwarded   | 1234:1234 5678   |
+| INSECURE   | TLS certificate is not verified when set            | 1                |
+
+¹ The default value of these variables is assumed from the current context configured in the passed kubeconfig volume.
 
 Example configuration in a compose file linking a database service running in Kubernetes with a locally running application:
 ```yaml
